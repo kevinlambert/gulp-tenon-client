@@ -13,7 +13,16 @@ var PLUGIN_NAME = 'gulp-tenon';
 console.log(PLUGIN_NAME);
 
 module.exports = function(opts) {
-  var options = merge({config: '.tenonrc'}, opts),
+
+  var defaultConfig = {};
+
+  try {
+    defaultConfig = JSON.parse(fs.readFileSync('.tenonrc', 'utf8'));
+  } catch (err) {
+    // do nothing
+  }
+
+  var options = merge(defaultConfig, opts),
       failed = 0,
       snippet = options.snippet,
       writePath = options.saveOutputIn,
